@@ -36,7 +36,7 @@ build {
     "source.amazon-ebs.al2",
     "source.amazon-ebs.al2arm",
     "source.amazon-ebs.al2gpu",
-    "source.amazon-ebs.al2inf"
+    "source.amazon-ebs.al2inf",
   ]
 
   provisioner "file" {
@@ -146,7 +146,8 @@ build {
     ]
   }
 
-  provisioner "shell" {
+  
+provisioner "shell" {
     script = "scripts/append-efs-client-info.sh"
   }
 
@@ -174,6 +175,13 @@ build {
     script = "scripts/enable-services.sh"
   }
 
+  provisioner "shell" {
+    script = "scripts/install-serviceconnect-dependencies.sh"
+    environment_vars = [
+      "AIR_GAPPED=${var.air_gapped}"
+    ]
+  }
+  
   provisioner "shell" {
     script = "scripts/cleanup.sh"
   }
